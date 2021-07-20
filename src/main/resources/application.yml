@@ -1,0 +1,35 @@
+spring:
+  jpa:
+    open-in-view: true
+    show-sql: true
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    database: sql_server
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  datasource:
+    url:  jdbc:mariadb://super-brain-db.c2rbzfa0saqk.ap-northeast-2.rds.amazonaws.com:3306/Test?characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Seoul&amp&allowPublicKeyRetrieval=true&useSSL=false
+    password: rowan0810
+    username: admin
+    driver-class-name: org.mariadb.jdbc.Driver
+  jta:
+    atomikos:
+      properties:
+        recovery:
+          forget-orphaned-log-entries-delay:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+server:
+  port: 5000
+aes256:
+  iv: FNCnMrexQrNK2pzQiwZFGg==
+  secret: UXO3ePF+4BleLis5ebVqtU4YABGoa8CRT3OvxouECDo=
+jwt:
+  secret: YFZyiCQX+dEBELUueSpwQG+qCAjpr9B+AIjnbeCG6G6qMUsYsihQoLBFXQZUEa1K21lvTpxAUhopHrhqha+DP+lPpbGRItfJ48RxmlpMtYrQz7KggWofSsmTXrOnGZFfTm4K1VtCy714n0kx4jOUJWXoWIUmyy0zCTop1pchP/eSewfueuiypoNIiuYjX86J53SyeZ1qoTUVI4JGMUdMM4e0lnp4oxR6trTiMFaKQARhqpBLpWcqZQ0LkfmYvCrG
+s3:
+  access: AKIAWPDUVMWFD3BX2T2H
+  secret: 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
+  bucket: super-brain-storage
