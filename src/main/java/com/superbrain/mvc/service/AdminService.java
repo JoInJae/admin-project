@@ -1,4 +1,6 @@
 package com.superbrain.mvc.service;
 
-public interface AdminService {
+import com.superbrain.mvc.service.base.BaseService;
+
+public interface AdminService{
 }
