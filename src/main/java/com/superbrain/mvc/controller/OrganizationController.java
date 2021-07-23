@@ -25,8 +25,8 @@ import java.util.List;
     }
 
     @Override
-    public void modify(OrganizationDTO.Update param) {
-
+    public void modify(String uuid, OrganizationDTO.Update param) {
+        service.update(uuid, param);
     }
 
     @Override
@@ -36,11 +36,11 @@ import java.util.List;
 
     @Override
     public ResponseEntity<OrganizationDTO.Result> get(String uuid) {
-        return null;
+        return ResponseEntity.ok(service.getOrganization(uuid));
     }
 
     @Override
     public ResponseEntity<List<OrganizationDTO.Result>> getAll() {
-        return null;
+        return ResponseEntity.ok(service.getOrganizations());
     }
 }

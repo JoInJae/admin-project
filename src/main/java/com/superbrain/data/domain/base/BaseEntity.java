@@ -1,17 +1,16 @@
 package com.superbrain.data.domain.base;
 
 import com.superbrain.data.domain.base.converter.UuidConverter;
-import com.superbrain.data.domain.base.embeded.Time;
 import com.superbrain.data.domain.base.listener.UuidListener;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@MappedSuperclass@Getter
-@EntityListeners(UuidListener.class)
-public abstract class BaseEntity {
+@Getter@EntityListeners(UuidListener.class)
+@MappedSuperclass public abstract class BaseEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -21,19 +20,12 @@ public abstract class BaseEntity {
     @Setter
     private String uuid;
 
-    @Embedded
-    private Time time;
+    @Column(name = "create_at", columnDefinition = "DATETIME")
+    @CreationTimestamp
+    private LocalDateTime time_create;
 
-    @PrePersist
-    void preInsert(){
-        time.setCreate(LocalDateTime.now());
-        time.setUpdate(LocalDateTime.now());
-    }
-
-    @PreUpdate
-    void preUpdate(){
-        time.setUpdate(LocalDateTime.now());
-    }
-
+    @Column(name = "update_at", columnDefinition = "DATETIME")
+    @UpdateTimestamp
+    private LocalDateTime time_update;
 
 }

@@ -1,6 +1,61 @@
 package com.superbrain.mvc.repository;
 
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+import com.superbrain.data.domain.universal.Organization;
+import com.superbrain.data.domain.universal.QOrganization;
+import com.superbrain.data.dto.OrganizationDTO;
+import com.superbrain.mvc.repository.base.BaseRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository public class OrganizationRepository {
+import java.util.List;
+import java.util.Optional;
+
+@Repository public class OrganizationRepository extends BaseRepository {
+
+    public OrganizationRepository(JPAQueryFactory query) {
+        super(query);
+    }
+
+    QOrganization qOrganization = QOrganization.organization;
+
+    public long update(Organization organization, OrganizationDTO.Update param) {
+
+        JPAUpdateClause update = query.update(qOrganization).where(qOrganization.eq(organization));
+
+        if (!organization.getName().equals(param.getName())){
+            update.set(qOrganization.name, param.getName());
+        }
+
+        if (update.isEmpty()){
+            return 0L;
+        }
+
+        return update.execute();
+
+    }
+
+    public void remove(Organization organization){
+
+        query.delete(qOrganization).where(qOrganization.eq(organization)).execute();
+
+    }
+
+    public Optional<Organization> getOrganizationByUuid(String uuid) {
+
+        Organization organization = query.selectFrom(qOrganization)
+                .where(qOrganization.uuid.eq(uuid)).fetchFirst();
+
+        return (organization != null) ? Optional.of(organization) : Optional.empty();
+
+    }
+
+    public List<OrganizationDTO.Result> getOrganizations() {
+        return query.from(qOrganization)
+                .select(Projections.constructor(OrganizationDTO.Result.class,
+                        qOrganization.uuid, qOrganization.name, qOrganization.role, qOrganization.etc
+                        ))
+                .fetch();
+    }
 }
