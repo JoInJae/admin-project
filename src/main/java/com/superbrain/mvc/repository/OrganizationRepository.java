@@ -29,7 +29,7 @@ import java.util.Optional;
         }
 
         if (update.isEmpty()){
-            return 0L;
+            return 0;
         }
 
         return update.execute();
