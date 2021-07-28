@@ -5,6 +5,8 @@ import com.superbrain.data.domain.admin.AdminInfo;
 import com.superbrain.data.domain.universal.Organization;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 public class AdminDTO {
 
     @Data
@@ -35,8 +37,7 @@ public class AdminDTO {
         private String password;
     }
 
-    @NoArgsConstructor
-    @Data
+    @Getter
     public static class Result{
 
         private String uuid;
@@ -49,6 +50,27 @@ public class AdminDTO {
             this.id = id;
             this.organization_name = organization.getName();
             this.organization_role = organization.getRole().getKor();
+        }
+
+    }
+
+    @Getter
+    public static class ResultDetail{
+
+        private String uuid;
+        private String id;
+        private String organization_name;
+        private String organization_role;
+        private LocalDateTime create_at;
+        private LocalDateTime update_at;
+
+        public ResultDetail(String uuid, String id, Organization organization, LocalDateTime create_at, LocalDateTime update_at) {
+            this.uuid = uuid;
+            this.id = id;
+            this.organization_name = organization.getName();
+            this.organization_role = organization.getRole().getKor();
+            this.create_at = create_at;
+            this.update_at = update_at;
         }
 
     }

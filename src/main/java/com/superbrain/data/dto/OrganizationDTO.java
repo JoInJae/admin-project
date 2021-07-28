@@ -4,8 +4,6 @@ import com.superbrain.data.constant.Role;
 import com.superbrain.data.domain.universal.Organization;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 public class OrganizationDTO {

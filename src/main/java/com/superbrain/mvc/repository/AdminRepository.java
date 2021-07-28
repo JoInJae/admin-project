@@ -53,11 +53,11 @@ import java.util.Optional;
 
     }
 
-    public Optional<AdminDTO.Result> getAdminInfoByUuid(String uuid) {
+    public Optional<AdminDTO.ResultDetail> getAdminDetail(String uuid) {
 
-        AdminDTO.Result result = query.from(qAdminInfo)
-                .select(Projections.constructor(AdminDTO.Result.class,
-                        qAdminInfo.admin.uuid, qAdminInfo.admin.id, qAdminInfo.organization))
+        AdminDTO.ResultDetail result = query.from(qAdminInfo)
+                .select(Projections.constructor(AdminDTO.ResultDetail.class,
+                        qAdminInfo.admin.uuid, qAdminInfo.admin.id, qAdminInfo.organization, qAdminInfo.time_create, qAdminInfo.time_update))
                 .where(qAdminInfo.admin.uuid.eq(uuid))
                 .fetchFirst();
 

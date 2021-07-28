@@ -7,6 +7,7 @@ import com.superbrain.data.constant.Token;
 import com.superbrain.data.domain.admin.Admin;
 import com.superbrain.data.domain.universal.Organization;
 import com.superbrain.data.dto.AdminDTO;
+import com.superbrain.data.dto.response.BaseResponse;
 import com.superbrain.mvc.repository.AdminRepository;
 import com.superbrain.mvc.repository.OrganizationRepository;
 import com.superbrain.mvc.service.AdminService;
@@ -17,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service public class AdminServiceImpl extends BaseService<AdminRepository> implements AdminService {
@@ -31,10 +31,9 @@ import java.util.Optional;
         this.jwt = jwt;
     }
 
-
     @Transactional
     @Override
-    public void input(AdminDTO.Input param) {
+    public BaseResponse input(AdminDTO.Input param) {
 
         Optional<Organization> is_organization = organizationRepository.getOrganization(param.getOrganization());
 
@@ -44,11 +43,12 @@ import java.util.Optional;
 
         em.persist(admin);
 
+        return BaseResponse.success();
     }
 
     @Transactional
     @Override
-    public void modify(String uuid, AdminDTO.Update param) {
+    public BaseResponse modify(String uuid, AdminDTO.Update param) {
 
         Optional<Admin> is_admin = repository.getAdminByUuid(uuid);
 
@@ -60,11 +60,12 @@ import java.util.Optional;
 
         if(check == 0 || check < 0) throw new UpdateUnavailableException();
 
+        return BaseResponse.success();
     }
 
     @Transactional
     @Override
-    public void remove(String uuid) {
+    public BaseResponse remove(String uuid) {
 
         Optional<Admin> is_admin = repository.getAdminByUuid(uuid);
 
@@ -72,23 +73,25 @@ import java.util.Optional;
 
         em.remove(is_admin.get());
 
+        return BaseResponse.success();
+
     }
 
     @Override
-    public AdminDTO.Result get(String uuid) {
+    public BaseResponse get(String uuid) {
 
-        Optional<AdminDTO.Result> is_admin_info = repository.getAdminInfoByUuid(uuid);
+        Optional<AdminDTO.ResultDetail> is_admin_info = repository.getAdminDetail(uuid);
 
         if(is_admin_info.isEmpty()) throw new WrongEntityApproachException();
 
-        return is_admin_info.get();
+        return BaseResponse.success(is_admin_info.get());
 
     }
 
     @Override
-    public List<AdminDTO.Result> getAll() {
+    public BaseResponse getAll() {
 
-        return repository.getAdmins();
+        return BaseResponse.success(repository.getAdmins());
 
     }
 
@@ -137,4 +140,5 @@ import java.util.Optional;
                 .build();
 
     }
+
 }
