@@ -31,6 +31,14 @@ import java.util.Optional;
 
     }
 
+    public Optional<Admin> getAdminById(String id) {
+
+        Admin admin = query.selectFrom(qAdmin).where(qAdmin.id.eq(id)).join(qAdmin.admin_info, qAdminInfo).fetchJoin().fetchFirst();
+
+        return (admin != null) ? Optional.of(admin) : Optional.empty();
+
+    }
+
     public long update(Admin admin, AdminDTO.Update param) {
 
         JPAUpdateClause update = query.update(qAdmin).where(qAdmin.eq(admin));
@@ -66,4 +74,13 @@ import java.util.Optional;
 
     }
 
+    public long updateToken(Admin admin, String refresh) {
+
+        JPAUpdateClause update = query.update(qAdmin).where(qAdmin.eq(admin));
+
+        update.set(qAdmin.refresh, refresh);
+
+        return update.execute();
+
+    }
 }

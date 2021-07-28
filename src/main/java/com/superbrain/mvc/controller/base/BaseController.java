@@ -1,6 +1,6 @@
 package com.superbrain.mvc.controller.base;
 
-abstract public class BaseController<S>{
+abstract public class BaseController<S> {
 
     protected final S service;
 

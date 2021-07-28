@@ -1,10 +1,8 @@
 package com.superbrain.mvc.controller;
 
 import com.superbrain.data.dto.OrganizationDTO;
-import com.superbrain.mvc.controller.base.BaseController;
-import com.superbrain.mvc.controller.base.BaseControllerImpl;
+import com.superbrain.mvc.controller.base.ControllerImpl;
 import com.superbrain.mvc.service.OrganizationService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,35 +10,52 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequestMapping(path = "/organization", method = RequestMethod.POST)
-@RestController public class OrganizationController extends BaseController<OrganizationService>
-        implements BaseControllerImpl<OrganizationDTO.Input, OrganizationDTO.Update, OrganizationDTO.Result> {
+@RestController public class OrganizationController extends ControllerImpl<OrganizationDTO.Input, OrganizationDTO.Update, OrganizationService> {
 
-    protected OrganizationController(OrganizationService service) {
+    public OrganizationController(OrganizationService service) {
         super(service);
     }
 
+/*
     @Override
-    public void input(OrganizationDTO.Input param) {
+    public ResponseEntity<BaseResponse> input(OrganizationDTO.Input param) {
+
         service.input(param);
+
+        return ResponseEntity.ok(BaseResponse.success());
     }
 
     @Override
-    public void modify(String uuid, OrganizationDTO.Update param) {
+    public ResponseEntity<BaseResponse> modify(String uuid, OrganizationDTO.Update param) {
+
         service.update(uuid, param);
+
+        return ResponseEntity.ok(BaseResponse.success());
+
     }
 
     @Override
-    public void remove(String uuid) {
+    public ResponseEntity<BaseResponse> remove(String uuid) {
+
         service.remove(uuid);
+
+        return ResponseEntity.ok(BaseResponse.success());
+
     }
 
     @Override
-    public ResponseEntity<OrganizationDTO.Result> get(String uuid) {
-        return ResponseEntity.ok(service.getOrganization(uuid));
+    public ResponseEntity<BaseResponse> get(String uuid) {
+
+        return ResponseEntity.ok(BaseResponse.success(service.getOrganization(uuid)));
+
     }
 
     @Override
-    public ResponseEntity<List<OrganizationDTO.Result>> getAll() {
-        return ResponseEntity.ok(service.getOrganizations());
+    public ResponseEntity<BaseResponse> getAll() {
+
+        return ResponseEntity.ok(BaseResponse.success(service.getOrganizations()));
+
     }
+
+ */
 }

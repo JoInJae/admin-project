@@ -1,45 +1,75 @@
 package com.superbrain.mvc.controller;
 
 import com.superbrain.data.dto.AdminDTO;
+import com.superbrain.data.dto.response.BaseResponse;
 import com.superbrain.mvc.controller.base.BaseController;
 import com.superbrain.mvc.controller.base.BaseControllerImpl;
 import com.superbrain.mvc.service.AdminService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping(path = "/admin", method = RequestMethod.POST)
-@RestController public class AdminController extends BaseController<AdminService> implements BaseControllerImpl<AdminDTO.Input, AdminDTO.Update, AdminDTO.Result> {
+@RestController public class AdminController extends BaseController<AdminService> implements BaseControllerImpl<AdminDTO.Input, AdminDTO.Update> {
 
     protected AdminController(AdminService service) {
         super(service);
     }
 
     @Override
-    public void input(AdminDTO.Input param) {
+    public ResponseEntity<BaseResponse> input(AdminDTO.Input param) {
+
         service.input(param);
+
+        return ResponseEntity.ok(BaseResponse.success());
+
     }
 
     @Override
-    public void modify(String uuid, AdminDTO.Update param) {
+    public ResponseEntity<BaseResponse> modify(String uuid, AdminDTO.Update param) {
+
         service.modify(uuid, param);
+
+        return ResponseEntity.ok(BaseResponse.success());
+
     }
 
     @Override
-    public void remove(String uuid) {
+    public ResponseEntity<BaseResponse> remove(String uuid) {
+
         service.remove(uuid);
+
+        return ResponseEntity.ok(BaseResponse.success());
     }
 
     @Override
-    public ResponseEntity<AdminDTO.Result> get(String uuid) {
-        return ResponseEntity.ok(service.get(uuid));
+    public ResponseEntity<BaseResponse> get(String uuid) {
+
+        return ResponseEntity.ok(BaseResponse.success(service.get(uuid)));
+
     }
 
     @Override
-    public ResponseEntity<List<AdminDTO.Result>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<BaseResponse> getAll() {
+
+        return ResponseEntity.ok(BaseResponse.success(service.getAll()));
+
     }
+
+    @RequestMapping(path="/login", method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> login(@RequestBody AdminDTO.Login param, HttpServletResponse response) {
+
+        return ResponseEntity.ok(BaseResponse.success(service.login(param, response)));
+
+    }
+
+    @RequestMapping(path="/reissue", method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> reissue(@CookieValue(value="refresh") Cookie cookie) {
+
+        return ResponseEntity.ok(BaseResponse.success(service.reissue(cookie.getValue())));
+
+    }
+
 }

@@ -2,9 +2,12 @@ package com.superbrain.mvc.controller.base;
 
 import com.superbrain.data.dto.response.BaseResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-public interface BaseControllerImpl <Input, Update> {
+public interface Controller <Input, Update>{
 
     @RequestMapping(path="/input", method = RequestMethod.POST)
     ResponseEntity<BaseResponse> input(@ModelAttribute Input param);

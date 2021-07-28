@@ -4,6 +4,7 @@ import com.superbrain.configuration.exception.UpdateUnavailableException;
 import com.superbrain.configuration.exception.WrongEntityApproachException;
 import com.superbrain.data.domain.universal.Organization;
 import com.superbrain.data.dto.OrganizationDTO;
+import com.superbrain.data.dto.response.BaseResponse;
 import com.superbrain.mvc.repository.OrganizationRepository;
 import com.superbrain.mvc.service.OrganizationService;
 import com.superbrain.mvc.service.base.BaseService;
@@ -20,6 +21,31 @@ import java.util.Optional;
         super(repository, em, mapper);
     }
 
+    @Override
+    public BaseResponse input(OrganizationDTO.Input param) {
+        return null;
+    }
+
+    @Override
+    public BaseResponse modify(String uuid, OrganizationDTO.Update param) {
+        return null;
+    }
+
+    @Override
+    public BaseResponse remove(String uuid) {
+        return null;
+    }
+
+    @Override
+    public BaseResponse get(String uuid) {
+        return null;
+    }
+
+    @Override
+    public BaseResponse getAll() {
+        return null;
+    }
+/*
     @Transactional
     @Override
     public void input(OrganizationDTO.Input param) {
@@ -71,5 +97,5 @@ import java.util.Optional;
     public List<OrganizationDTO.Result> getOrganizations() {
         return repository.getOrganizations();
     }
-
+*/
 }

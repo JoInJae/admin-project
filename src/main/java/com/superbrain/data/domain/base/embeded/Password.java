@@ -16,7 +16,7 @@ public class Password {
     }
 
     public boolean match(String input){
-        return !new BCryptPasswordEncoder().matches(input + hashing.substring(60), hashing.substring(0, 60));
+        return new BCryptPasswordEncoder().matches(input + hashing.substring(60), hashing.substring(0, 60));
     }
 
 }

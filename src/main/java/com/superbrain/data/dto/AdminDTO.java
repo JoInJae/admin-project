@@ -1,11 +1,9 @@
 package com.superbrain.data.dto;
 
-import com.superbrain.data.constant.Role;
 import com.superbrain.data.domain.admin.Admin;
 import com.superbrain.data.domain.admin.AdminInfo;
 import com.superbrain.data.domain.universal.Organization;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class AdminDTO {
 
@@ -52,6 +50,23 @@ public class AdminDTO {
             this.organization_name = organization.getName();
             this.organization_role = organization.getRole().getKor();
         }
+
+    }
+
+    @Getter
+    public static class Login{
+
+        private String id;
+        private String password;
+
+    }
+
+    @AllArgsConstructor
+    @Builder
+    @Getter
+    public static class Token{
+
+        private String access;
 
     }
 
