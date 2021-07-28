@@ -42,7 +42,7 @@ import java.util.Optional;
 
     }
 
-    public Optional<Organization> getOrganizationByUuid(String uuid) {
+    public Optional<Organization> getOrganization(String uuid) {
 
         Organization organization = query.selectFrom(qOrganization)
                 .where(qOrganization.uuid.eq(uuid)).fetchFirst();
@@ -51,11 +51,21 @@ import java.util.Optional;
 
     }
 
+    public Optional<OrganizationDTO.DetailResult> getOrganizationDetail(String uuid) {
+
+        OrganizationDTO.DetailResult result = query.from(qOrganization)
+                .select(Projections.constructor(OrganizationDTO.DetailResult.class,
+                        qOrganization.uuid, qOrganization.name, qOrganization.role, qOrganization.etc, qOrganization.time_create, qOrganization.time_update))
+                .where(qOrganization.uuid.eq(uuid)).fetchFirst();
+
+        return (result != null) ? Optional.of(result) : Optional.empty();
+
+    }
+
     public List<OrganizationDTO.Result> getOrganizations() {
         return query.from(qOrganization)
                 .select(Projections.constructor(OrganizationDTO.Result.class,
-                        qOrganization.uuid, qOrganization.name, qOrganization.role, qOrganization.etc
-                        ))
+                        qOrganization.uuid, qOrganization.name, qOrganization.role))
                 .fetch();
     }
 }

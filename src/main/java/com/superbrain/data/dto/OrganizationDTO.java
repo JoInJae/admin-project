@@ -3,7 +3,10 @@ package com.superbrain.data.dto;
 import com.superbrain.data.constant.Role;
 import com.superbrain.data.domain.universal.Organization;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 public class OrganizationDTO {
 
@@ -24,21 +27,39 @@ public class OrganizationDTO {
         private String name;
     }
 
-    @NoArgsConstructor
-    @Data
+    @Getter
     public static class Result{
 
         private String uuid;
         private String name;
         private String role;
-        private String etc;
 
-        public Result(String uuid, String name, Role role, String etc) {
+        public Result(String uuid, String name, Role role) {
+            this.uuid = uuid;
+            this.name = name;
+            this.role = role.getKor();
+        }
+    }
+
+    @Getter
+    public static class DetailResult{
+
+        private String uuid;
+        private String name;
+        private String role;
+        private String etc;
+        private LocalDateTime createAt;
+        private LocalDateTime updateAt;
+
+        public DetailResult(String uuid, String name, Role role, String etc, LocalDateTime createAt, LocalDateTime updateAt) {
             this.uuid = uuid;
             this.name = name;
             this.role = role.getKor();
             this.etc = etc;
+            this.createAt = createAt;
+            this.updateAt = updateAt;
         }
+
     }
 
 }

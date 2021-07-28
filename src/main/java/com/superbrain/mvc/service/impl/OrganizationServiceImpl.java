@@ -21,44 +21,21 @@ import java.util.Optional;
         super(repository, em, mapper);
     }
 
-    @Override
-    public BaseResponse input(OrganizationDTO.Input param) {
-        return null;
-    }
-
-    @Override
-    public BaseResponse modify(String uuid, OrganizationDTO.Update param) {
-        return null;
-    }
-
-    @Override
-    public BaseResponse remove(String uuid) {
-        return null;
-    }
-
-    @Override
-    public BaseResponse get(String uuid) {
-        return null;
-    }
-
-    @Override
-    public BaseResponse getAll() {
-        return null;
-    }
-/*
     @Transactional
     @Override
-    public void input(OrganizationDTO.Input param) {
+    public BaseResponse input(OrganizationDTO.Input param) {
 
         em.persist(param.toEntity());
 
+        return BaseResponse.success();
+
     }
 
     @Transactional
     @Override
-    public void update(String uuid, OrganizationDTO.Update param) {
+    public BaseResponse modify(String uuid, OrganizationDTO.Update param) {
 
-        Optional<Organization> is_organization = repository.getOrganizationByUuid(uuid);
+        Optional<Organization> is_organization = repository.getOrganization(uuid);
 
         if(is_organization.isEmpty()) throw new WrongEntityApproachException();
 
@@ -68,34 +45,42 @@ import java.util.Optional;
 
         if(check == 0 || check < 0) throw new UpdateUnavailableException();
 
+        return BaseResponse.success();
+
     }
 
     @Transactional
     @Override
-    public void remove(String uuid) {
+    public BaseResponse remove(String uuid) {
 
-        Optional<Organization> is_organization = repository.getOrganizationByUuid(uuid);
+        Optional<Organization> is_organization = repository.getOrganization(uuid);
 
         if(is_organization.isEmpty()) throw new WrongEntityApproachException();
 
         repository.remove(is_organization.get());
 
-    }
-
-    @Override
-    public OrganizationDTO.Result getOrganization(String uuid) {
-
-        Optional<Organization> is_organization = repository.getOrganizationByUuid(uuid);
-
-        if(is_organization.isEmpty()) throw new WrongEntityApproachException();
-
-        return mapper.map(is_organization.get(), OrganizationDTO.Result.class);
+        return BaseResponse.success();
 
     }
 
     @Override
-    public List<OrganizationDTO.Result> getOrganizations() {
-        return repository.getOrganizations();
+    public BaseResponse get(String uuid) {
+
+        Optional<OrganizationDTO.DetailResult> is_organization_detail = repository.getOrganizationDetail(uuid);
+
+        if(is_organization_detail.isEmpty()) throw new WrongEntityApproachException();
+
+        return BaseResponse.success(is_organization_detail.get());
+
     }
-*/
+
+    @Override
+    public BaseResponse getAll() {
+
+        List<OrganizationDTO.Result> results = repository.getOrganizations();
+
+        return BaseResponse.success(results);
+
+    }
+
 }

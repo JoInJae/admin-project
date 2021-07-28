@@ -36,7 +36,7 @@ import java.util.Optional;
     @Override
     public void input(AdminDTO.Input param) {
 
-        Optional<Organization> is_organization = organizationRepository.getOrganizationByUuid(param.getOrganization());
+        Optional<Organization> is_organization = organizationRepository.getOrganization(param.getOrganization());
 
         if(is_organization.isEmpty()) throw new WrongEntityApproachException();
 
