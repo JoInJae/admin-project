@@ -1,7 +1,7 @@
 package com.superbrain.data.dto;
 
 import com.superbrain.data.constant.Role;
-import com.superbrain.data.domain.universal.Organization;
+import com.superbrain.data.domain.part.univ.Organization;
 import lombok.Data;
 import lombok.Getter;
 import java.time.LocalDateTime;

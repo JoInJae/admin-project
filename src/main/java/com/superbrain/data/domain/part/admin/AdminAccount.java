@@ -1,21 +1,19 @@
-package com.superbrain.data.domain.admin;
+package com.superbrain.data.domain.part.admin;
 
 import com.superbrain.data.domain.base.BaseEntity;
 import com.superbrain.data.domain.base.embeded.Password;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
 import javax.persistence.*;
 
-@Entity@Table(name = "Admin")
+@Entity@Table(name = "Admin_Account")
 @Getter@NoArgsConstructor
 @AttributeOverrides({
-        @AttributeOverride(name = "idx", column = @Column(name = "admin_idx", columnDefinition = "BIGINT", nullable = false)),
-        @AttributeOverride(name = "uuid", column = @Column(name = "admin_uuid", columnDefinition = "CHAR(40)", nullable = false, unique = true))
+        @AttributeOverride(name = "idx", column = @Column(name = "admin_idx", columnDefinition = "BIGINT", nullable = false))
 })
-public class Admin extends BaseEntity {
+public class AdminAccount extends BaseEntity {
 
     @Column(name = "admin_id", columnDefinition = "VARCHAR(30)", nullable = false, unique = true)
     private String id;
@@ -32,14 +30,16 @@ public class Admin extends BaseEntity {
     @Column(name = "admin_active", columnDefinition = "TINYINT(1)", nullable = false)
     private Long active;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "admin")
-    @Setter
-    private AdminInfo admin_info;
+    @JoinColumn(name = "admin_idx", referencedColumnName = "admin_idx")
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
+    @MapsId
+    private Admin admin;
 
     @Builder
-    public Admin(String id, String password, AdminInfo admin_info) {
+    public AdminAccount(String id, String password, Admin admin) {
         this.id = id;
         this.password = new Password(password, RandomStringUtils.randomAlphanumeric(12));
+        this.admin = admin;
     }
 
     @PrePersist

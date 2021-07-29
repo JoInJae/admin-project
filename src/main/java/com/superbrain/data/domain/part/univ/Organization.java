@@ -1,4 +1,4 @@
-package com.superbrain.data.domain.universal;
+package com.superbrain.data.domain.part.univ;
 
 import com.superbrain.data.constant.Role;
 import com.superbrain.data.domain.base.BaseEntity;

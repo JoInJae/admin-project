@@ -1,8 +1,8 @@
 package com.superbrain.data.dto;
 
-import com.superbrain.data.domain.admin.Admin;
-import com.superbrain.data.domain.admin.AdminInfo;
-import com.superbrain.data.domain.universal.Organization;
+import com.superbrain.data.domain.part.admin.Admin;
+import com.superbrain.data.domain.part.admin.AdminAccount;
+import com.superbrain.data.domain.part.univ.Organization;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,13 +18,14 @@ public class AdminDTO {
         public Admin toEntity(Organization organization){
 
             Admin admin = Admin.builder()
-                    .id(id).password(password).build();
-
-            AdminInfo admin_info = AdminInfo.builder()
-                    .organization(organization).admin(admin)
+                    .organization(organization)
                     .build();
 
-            admin.setAdmin_info(admin_info);
+            AdminAccount account = AdminAccount.builder()
+                    .id(id).password(password).admin(admin).build();
+
+
+            admin.setAccount(account);
 
             return admin;
 

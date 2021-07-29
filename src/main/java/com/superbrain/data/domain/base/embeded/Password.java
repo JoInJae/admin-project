@@ -5,9 +5,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.Embeddable;
 
-@NoArgsConstructor
-@Getter@Embeddable
-public class Password {
+@NoArgsConstructor@Getter
+@Embeddable public class Password {
 
     private String hashing;
 

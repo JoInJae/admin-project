@@ -4,10 +4,24 @@ import com.superbrain.data.dto.response.BaseResponse;
 
 public interface Service<Input, Update>{
 
-    BaseResponse input(Input param);
-    BaseResponse modify(String uuid, Update param);
-    BaseResponse remove(String uuid);
-    BaseResponse get(String uuid);
-    BaseResponse getAll();
+    default BaseResponse input(Input param){
+        return BaseResponse.success();
+    }
+
+    default BaseResponse modify(String uuid, Update param){
+        return BaseResponse.success();
+    }
+
+    default BaseResponse remove(String uuid){
+        return BaseResponse.success();
+    }
+
+    default BaseResponse get(String uuid){
+        return BaseResponse.success();
+    }
+
+    default BaseResponse getAll(){
+        return BaseResponse.success();
+    }
 
 }

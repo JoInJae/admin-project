@@ -2,7 +2,7 @@ package com.superbrain.mvc.service.impl;
 
 import com.superbrain.configuration.exception.UpdateUnavailableException;
 import com.superbrain.configuration.exception.WrongEntityApproachException;
-import com.superbrain.data.domain.universal.Organization;
+import com.superbrain.data.domain.part.univ.Organization;
 import com.superbrain.data.dto.OrganizationDTO;
 import com.superbrain.data.dto.response.BaseResponse;
 import com.superbrain.mvc.repository.OrganizationRepository;

@@ -3,10 +3,11 @@ package com.superbrain.mvc.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
-import com.superbrain.data.domain.admin.Admin;
-import com.superbrain.data.domain.admin.QAdmin;
-import com.superbrain.data.domain.admin.QAdminInfo;
+import com.superbrain.data.domain.part.admin.Admin;
+import com.superbrain.data.domain.part.admin.AdminAccount;
+import com.superbrain.data.domain.part.admin.QAdmin;
 import com.superbrain.data.domain.base.embeded.Password;
+import com.superbrain.data.domain.part.admin.QAdminAccount;
 import com.superbrain.data.dto.AdminDTO;
 import com.superbrain.mvc.repository.base.BaseRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,34 +18,42 @@ import java.util.Optional;
 @Repository public class AdminRepository extends BaseRepository {
 
     QAdmin qAdmin = QAdmin.admin;
-    QAdminInfo qAdminInfo = QAdminInfo.adminInfo;
+    QAdminAccount qAdminAccount = QAdminAccount.adminAccount;
 
     public AdminRepository(JPAQueryFactory query) {
         super(query);
     }
 
-    public Optional<Admin> getAdminByUuid(String uuid) {
+    public Optional<Admin> getAdmin(String uuid) {
 
-        Admin admin = query.selectFrom(qAdmin).where(qAdmin.uuid.eq(uuid)).join(qAdmin.admin_info, qAdminInfo).fetchJoin().fetchFirst();
-
-        return (admin != null) ? Optional.of(admin) : Optional.empty();
-
-    }
-
-    public Optional<Admin> getAdminById(String id) {
-
-        Admin admin = query.selectFrom(qAdmin).where(qAdmin.id.eq(id)).join(qAdmin.admin_info, qAdminInfo).fetchJoin().fetchFirst();
+        Admin admin = query.selectFrom(qAdmin).where(qAdmin.uuid.eq(uuid)).fetchFirst();
 
         return (admin != null) ? Optional.of(admin) : Optional.empty();
 
     }
 
-    public long update(Admin admin, AdminDTO.Update param) {
+    public Optional<AdminAccount> getAdminAccount(String uuid) {
 
-        JPAUpdateClause update = query.update(qAdmin).where(qAdmin.eq(admin));
+        AdminAccount account = query.selectFrom(qAdminAccount).where(qAdminAccount.admin.uuid.eq(uuid)).join(qAdminAccount.admin, qAdmin).fetchJoin().fetchFirst();
 
-        if(!admin.getPassword().match(param.getPassword())){
-            update.set(qAdmin.password, new Password(param.getPassword(), RandomStringUtils.randomAlphanumeric(12)));
+        return (account != null) ? Optional.of(account) : Optional.empty();
+
+    }
+
+    public Optional<AdminAccount> getAdminById(String id) {
+
+        AdminAccount account = query.selectFrom(qAdminAccount).where(qAdminAccount.id.eq(id)).join(qAdminAccount.admin, qAdmin).fetchJoin().fetchFirst();
+
+        return (account != null) ? Optional.of(account) : Optional.empty();
+
+    }
+
+    public long update(AdminAccount account, AdminDTO.Update param) {
+
+        JPAUpdateClause update = query.update(qAdminAccount).where(qAdminAccount.eq(account));
+
+        if(!account.getPassword().match(param.getPassword())){
+            update.set(qAdminAccount.password, new Password(param.getPassword(), RandomStringUtils.randomAlphanumeric(12)));
         }
 
         if(update.isEmpty()) return 0;
@@ -55,30 +64,30 @@ import java.util.Optional;
 
     public Optional<AdminDTO.ResultDetail> getAdminDetail(String uuid) {
 
-        AdminDTO.ResultDetail result = query.from(qAdminInfo)
+        AdminDTO.ResultDetail result = query.from(qAdmin)
                 .select(Projections.constructor(AdminDTO.ResultDetail.class,
-                        qAdminInfo.admin.uuid, qAdminInfo.admin.id, qAdminInfo.organization, qAdminInfo.time_create, qAdminInfo.time_update))
-                .where(qAdminInfo.admin.uuid.eq(uuid))
+                        qAdmin.uuid, qAdmin.account.id, qAdmin.organization, qAdmin.time_create, qAdmin.time_update))
+                .where(qAdmin.uuid.eq(uuid))
                 .fetchFirst();
 
        return (result != null) ? Optional.of(result) : Optional.empty();
 
     }
 
-    public List<AdminDTO.Result> getAdmins() {
+    public List<AdminDTO.Result> getAdminList() {
 
-        return query.from(qAdminInfo)
+        return query.from(qAdmin)
                 .select(Projections.constructor(AdminDTO.Result.class,
-                        qAdminInfo.admin.uuid, qAdminInfo.admin.id, qAdminInfo.organization))
+                        qAdmin.uuid, qAdmin.account.id, qAdmin.organization))
                 .fetch();
 
     }
 
-    public long updateToken(Admin admin, String refresh) {
+    public long updateToken(AdminAccount account, String refresh) {
 
-        JPAUpdateClause update = query.update(qAdmin).where(qAdmin.eq(admin));
+        JPAUpdateClause update = query.update(qAdminAccount).where(qAdminAccount.eq(account));
 
-        update.set(qAdmin.refresh, refresh);
+        update.set(qAdminAccount.refresh, refresh);
 
         return update.execute();
 

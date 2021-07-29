@@ -4,8 +4,9 @@ import com.superbrain.assist.JWT;
 import com.superbrain.configuration.exception.UpdateUnavailableException;
 import com.superbrain.configuration.exception.WrongEntityApproachException;
 import com.superbrain.data.constant.Token;
-import com.superbrain.data.domain.admin.Admin;
-import com.superbrain.data.domain.universal.Organization;
+import com.superbrain.data.domain.part.admin.Admin;
+import com.superbrain.data.domain.part.admin.AdminAccount;
+import com.superbrain.data.domain.part.univ.Organization;
 import com.superbrain.data.dto.AdminDTO;
 import com.superbrain.data.dto.response.BaseResponse;
 import com.superbrain.mvc.repository.AdminRepository;
@@ -50,13 +51,13 @@ import java.util.Optional;
     @Override
     public BaseResponse modify(String uuid, AdminDTO.Update param) {
 
-        Optional<Admin> is_admin = repository.getAdminByUuid(uuid);
+        Optional<AdminAccount> is_account = repository.getAdminAccount(uuid);
 
-        if(is_admin.isEmpty()) throw new WrongEntityApproachException();
+        if(is_account.isEmpty()) throw new WrongEntityApproachException();
 
-        Admin admin = is_admin.get();
+        AdminAccount account = is_account.get();
 
-        long check = repository.update(admin, param);
+        long check = repository.update(account, param);
 
         if(check == 0 || check < 0) throw new UpdateUnavailableException();
 
@@ -67,7 +68,7 @@ import java.util.Optional;
     @Override
     public BaseResponse remove(String uuid) {
 
-        Optional<Admin> is_admin = repository.getAdminByUuid(uuid);
+        Optional<Admin> is_admin = repository.getAdmin(uuid);
 
         if(is_admin.isEmpty()) throw new WrongEntityApproachException();
 
@@ -91,7 +92,7 @@ import java.util.Optional;
     @Override
     public BaseResponse getAll() {
 
-        return BaseResponse.success(repository.getAdmins());
+        return BaseResponse.success(repository.getAdminList());
 
     }
 
@@ -99,11 +100,11 @@ import java.util.Optional;
     @Override
     public AdminDTO.Token login(AdminDTO.Login param, HttpServletResponse response) {
 
-        Optional<Admin> is_admin = repository.getAdminById(param.getId());
+        Optional<AdminAccount> is_admin = repository.getAdminById(param.getId());
 
         if(is_admin.isEmpty()) throw new WrongEntityApproachException();
 
-        Admin admin = is_admin.get();
+        AdminAccount admin = is_admin.get();
 
         if(admin.getPassword().match(param.getPassword())) {
 

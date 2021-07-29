@@ -21,7 +21,7 @@ import java.util.Map;
 
     public String create(Token type, String uuid){
 
-        Map<String, Object> claims = Map.of("uuid", uuid);
+        Map<String, Object> claims = Map.of("uuid", uuid, "type", type);
 
         long expiredTime = System.currentTimeMillis() + type.getExpiration();
 
