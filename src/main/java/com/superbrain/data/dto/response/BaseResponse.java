@@ -1,15 +1,15 @@
 package com.superbrain.data.dto.response;
 
-import com.superbrain.data.dto.response.type.Response;
+import com.superbrain.data.constant.Response;
 import lombok.Getter;
 import javax.annotation.Nullable;
 
 @Getter
 public abstract class BaseResponse {
 
-    private final String status;
-    private final String message;
     private final String type;
+    private final String message;
+    private final String status;
 
     public BaseResponse(Response response) {
         this.status = response.getStatus();

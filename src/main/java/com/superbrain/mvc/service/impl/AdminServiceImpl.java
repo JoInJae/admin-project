@@ -1,8 +1,10 @@
 package com.superbrain.mvc.service.impl;
 
 import com.superbrain.assist.JWT;
+import com.superbrain.configuration.exception.ServiceException;
 import com.superbrain.configuration.exception.UpdateUnavailableException;
 import com.superbrain.configuration.exception.WrongEntityApproachException;
+import com.superbrain.data.constant.Response;
 import com.superbrain.data.constant.Token;
 import com.superbrain.data.domain.part.admin.Admin;
 import com.superbrain.data.domain.part.admin.AdminAccount;
@@ -102,7 +104,7 @@ import java.util.Optional;
 
         Optional<AdminAccount> is_admin = repository.getAdminById(param.getId());
 
-        if(is_admin.isEmpty()) throw new WrongEntityApproachException();
+        if(is_admin.isEmpty()) throw new ServiceException(Response.ID_NOT_AVAILABLE);
 
         AdminAccount admin = is_admin.get();
 
@@ -127,7 +129,7 @@ import java.util.Optional;
 
         }
 
-        throw new WrongEntityApproachException();
+        throw new ServiceException(Response.PW_NOT_AVAILABLE);
 
     }
 

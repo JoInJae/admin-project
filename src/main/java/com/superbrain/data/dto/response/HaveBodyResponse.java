@@ -1,18 +1,18 @@
 package com.superbrain.data.dto.response;
 
-import com.superbrain.data.dto.response.type.Response;
+import com.superbrain.data.constant.Response;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
 
 @Getter
-public class HaveBodyResponse<Body> extends BaseResponse{
+public class HaveBodyResponse<Data> extends BaseResponse{
 
-    private final Body body;
+    private final Data data;
 
-    public HaveBodyResponse(Response response, @Nullable Body body) {
+    public HaveBodyResponse(Response response, @Nullable Data data) {
         super(response);
-        this.body = body;
+        this.data = data;
     }
 
 }

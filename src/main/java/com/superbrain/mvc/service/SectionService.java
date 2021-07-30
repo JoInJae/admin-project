@@ -1,4 +1,7 @@
 package com.superbrain.mvc.service;
 
-public interface SectionService {
+import com.superbrain.data.dto.SectionDTO;
+import com.superbrain.mvc.service.base.Service;
+
+public interface SectionService extends Service<SectionDTO.Input, SectionDTO.Update> {
 }

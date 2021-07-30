@@ -1,6 +1,7 @@
 package com.superbrain.assist;
 
-import com.superbrain.configuration.exception.InvalidAuthorizationException;
+import com.superbrain.configuration.exception.ServiceException;
+import com.superbrain.data.constant.Response;
 import com.superbrain.data.constant.Token;
 import com.superbrain.data.environment.JWTValues;
 import io.jsonwebtoken.*;
@@ -37,11 +38,11 @@ import java.util.Map;
 
         }catch (ExpiredJwtException e){
 
-            throw new InvalidAuthorizationException();
+            throw new ServiceException(Response.TOKEN_EXPIRED);
 
         }catch (Exception e){
 
-            throw new InvalidAuthorizationException();
+            throw new ServiceException(Response.TOKEN_INVALID);
 
         }
 
